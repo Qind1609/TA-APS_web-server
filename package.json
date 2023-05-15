@@ -18,5 +18,19 @@
   "bugs": {
     "url": "https://github.com/Qind1609/TA-APS_web-server/issues"
   },
-  "homepage": "https://github.com/Qind1609/TA-APS_web-server#readme"
+  "dependencies": {
+    "@logdna/tail-file": "^3.0.1",
+    "async": "^3.2.4",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "dotenv-cli": "^5.1.0",
+    "express": "^4.18.2",
+    "express-fileupload": "^1.4.0"
+  },
+  "devDependencies": {
+    "concurrently": "^8.0.1",
+    "dotenv": "^6.2.0",
+    "dotenv-cli": "^1.4.0",
+    "morgan": "^1.10.0"
+  }
 }
