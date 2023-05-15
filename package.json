@@ -1,0 +1,22 @@
+{
+  "name": "web_server",
+  "version": "1.0.0",
+  "description": "web-server for thinkalpha energy saving project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "NODE_ENV=local dotenv -e .env.local node index.js",
+    "dev": "NODE_ENV=development dotenv -e .env.development node index.js",
+    "serve": "NODE_ENV=production dotenv -e .env.production node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Qind1609/TA-APS_web-server.git"
+  },
+  "author": "hainguyen.cdt17@gmail.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Qind1609/TA-APS_web-server/issues"
+  },
+  "homepage": "https://github.com/Qind1609/TA-APS_web-server#readme"
+}
