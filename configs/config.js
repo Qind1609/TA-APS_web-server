@@ -4,7 +4,7 @@ const data_folder = './data'
 
 const configs = {
   data_path: path.resolve(data_folder)
-}
+};
 
 // create data folder if not exist
 if (!fs.existsSync(data_folder)) {
