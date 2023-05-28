@@ -22,14 +22,16 @@ module.exports = {
           let pressArr = [];
           let flowArr = [];
           let consumptionArr = [];
-          timeArr = csv_data.map(item => item.Insert_time.split(' ').splice(1, 4));
-          tempArr = csv_data.map(item => parseFloat(item.T));
-          pressArr = csv_data.map(item => parseFloat(item.P));
-          flowArr = csv_data.map(item => parseFloat(item.F));
-          consumptionArr = csv_data.map(item => parseFloat(item.kW));
-          let timeList = utils.handleTimeDataImport(timeArr);                                  //output: {timeArr: [...], dayArr: [...], weekArr: [...], monthArr: [...], day: {...}, week: {...}, month: {...}}
-          let flowList = utils.handleFlowDataImport(flowArr, timeList);                       //output: {day: [...], week: [...], month: [...]}
-          let consumptionList = utils.handleConsumptionDataImport(consumptionArr, timeList); //output: {day: [...], week: [...], month: [...]}
+          csv_data.map((item, index) => {
+            timeArr.push(item.Month + '-' + item.Day + '-' + item.Year + ' ' + item.Hour + ':' + item.Minute + ':' + item.Second);
+            tempArr.push(parseFloat(item.T));
+            pressArr.push(parseFloat(item.P));
+            flowArr.push(parseFloat(item.F));
+            consumptionArr.push(parseFloat(item.kW));
+          });
+          let timeList = utils.handleTimeDataImport(timeArr);                                // output: {timeArr: [...], dayArr: [...], weekArr: [...], monthArr: [...], day: {...}, week: {...}, month: {...}}
+          let flowList = utils.handleFlowDataImport(flowArr, timeList);                      // output: {day: [...], week: [...], month: [...]}
+          let consumptionList = utils.handleConsumptionDataImport(consumptionArr, timeList); // output: {day: [...], week: [...], month: [...]}
           let data = {
             time: timeList,
             temp: tempArr,

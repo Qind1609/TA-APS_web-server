@@ -16,8 +16,8 @@ utils.handleTimeDataImport = (timeArr) => {
   const weekArr = [];
   const monthArr = [];
   timeArr.forEach((item, index) => {
-    const dateTemp = `${item[0]} ${item[1]}, ${item[2]} ${item[3]}`;
-    const date = new Date(dateTemp);
+    //const dateTemp = `${item[0]} ${item[1]}, ${item[2]} ${item[3]}`;
+    const date = new Date(item);
     const dayKey = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
     const weekKey = `${utils.getWeek(date)}/${date.getFullYear()}`
     const monthKey = `${date.getMonth() + 1}/${date.getFullYear()}`;
@@ -117,28 +117,50 @@ utils.handleFlowDataImport = (flowArr, timeList) => {
 
 utils.handleConsumptionDataImport = (consumptionArr, timeList) => {
   let consumptionTemp = {};
+  let weekBelongCurrent = null;
+  let weekBelongPrevious = null;
+  let monthBelongCurrent = null;
+  let monthBelongPrevious = null;
+  let sumConsumptionWeek = 0;
+  let sumConsumptionMonth = 0;
   Object.entries(timeList.day).forEach(([day, value]) => {
     let consumptionDay = consumptionArr[value.to];
+    let dayComponent =  day.split('/');
+    let dayCorrect = new Date(`${dayComponent[2]}-${dayComponent[1]}-${dayComponent[0]}`);
+    weekBelongCurrent = utils.getWeek(dayCorrect);
+    monthBelongCurrent = dayCorrect.getMonth() + 1;
     if (!consumptionTemp.day) {
       consumptionTemp.day = [];
     }
-    consumptionTemp.day.push(consumptionDay);
-  });
-  Object.entries(timeList.week).forEach(([week, value]) => {
-    let consumptionWeek = consumptionArr[value.to];
     if (!consumptionTemp.week) {
       consumptionTemp.week = [];
     }
-    consumptionTemp.week.push(consumptionWeek);
-  });
-  Object.entries(timeList.month).forEach(([month, value]) => {
-    let consumptionMonth = consumptionArr[value.to];
     if (!consumptionTemp.month) {
       consumptionTemp.month = [];
     }
-    consumptionTemp.month.push(consumptionMonth);
+
+    consumptionTemp.day.push(utils.format2Decimals(consumptionDay));
+    if (weekBelongCurrent === weekBelongPrevious || weekBelongPrevious === null) {
+      sumConsumptionWeek += consumptionDay;
+    }
+    else {
+      consumptionTemp.week.push(utils.format2Decimals(sumConsumptionWeek));
+      sumConsumptionWeek = consumptionDay;
+    }
+    if (monthBelongCurrent === monthBelongPrevious || monthBelongPrevious === null) {
+      sumConsumptionMonth += consumptionDay;
+    } else {
+      consumptionTemp.month.push(utils.format2Decimals(sumConsumptionMonth));
+      sumConsumptionMonth = consumptionDay;
+    }
+    if (day === timeList.dayArr[timeList.dayArr.length - 1]) {
+      consumptionTemp.week.push(utils.format2Decimals(sumConsumptionWeek));
+      consumptionTemp.month.push(utils.format2Decimals(sumConsumptionMonth));
+    }
+    monthBelongPrevious = monthBelongCurrent;
+    weekBelongPrevious = weekBelongCurrent;
   });
-  console.log("consumptionTemp", consumptionTemp)
+  //console.log("consumptionTemp", consumptionTemp)
   return consumptionTemp;
 }
 
@@ -148,6 +170,10 @@ utils.getWeek = (date) => {
   const week1 = new Date(date.getFullYear(), 0, 4);
   return 1 + Math.round(((date.getTime() - week1.getTime()) / 86400000
                         - 3 + (week1.getDay() + 6) % 7) / 7);
+}
+
+utils.format2Decimals = (number) => {
+  return Math.round(number * 100) / 100;
 }
 
 module.exports = utils;
