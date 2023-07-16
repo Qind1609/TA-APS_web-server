@@ -7,6 +7,7 @@ const morgan = require('morgan');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const fileupload = require('express-fileupload');
+const db = require('./db/models');
 
 // Watch env
 console.log('Environment:', env);
@@ -42,6 +43,12 @@ const { uncatchableAPI, errorHandler } = require('./routes/error');
 app.use(uncatchableAPI);
 app.use(errorHandler);
 
+// Sync database
+db.sequelize.sync().then(() => {
+  console.log('Sync db successfully');
+}).catch((err) => {
+  console.log("Failed to sync db: ", err.message);
+});
 
 /**
  * Start server

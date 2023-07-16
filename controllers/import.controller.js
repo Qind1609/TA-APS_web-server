@@ -1,9 +1,7 @@
 const async = require('async');
-const fs = require('fs');
 const path = require('path');
 const config = require('../configs/config');
 const utils = require('../helpers/utils');
-const { time } = require('console');
 
 const { data_path } = config;
 
