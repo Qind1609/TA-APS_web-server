@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { import_data, export_data, home, admin, energy, flow, pressure, temperature } = require('../controllers');
+const { import_data, export_data, home, admin, energy, flow, pressure, temperature, database } = require('../controllers');
 
 /**
  * Convention
@@ -18,6 +18,7 @@ router.get('/get_all_data', admin.getAllData);
 // router.get('/flow/get_flow_data', flow.getFlowData);
 // router.get('/pressure/get_pressure_data', pressure.getPressureData);
 // router.get('/temperature/get_temperature_data', temperature.getTemperatureData);
+router.post('/db/insert_data', database.insertData);
 
 
 module.exports = router;

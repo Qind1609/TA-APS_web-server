@@ -25,7 +25,7 @@ module.exports = {
             tempArr.push(parseFloat(item.T));
             pressArr.push(parseFloat(item.P));
             flowArr.push(parseFloat(item.F));
-            consumptionArr.push(parseFloat(item.kW));
+            consumptionArr.push(parseFloat(item.kwh));
           });
           let timeList = utils.handleTimeDataImport(timeArr);                                // output: {timeArr: [...], dayArr: [...], weekArr: [...], monthArr: [...], day: {...}, week: {...}, month: {...}}
           let flowList = utils.handleFlowDataImport(flowArr, timeList);                      // output: {day: [...], week: [...], month: [...]}

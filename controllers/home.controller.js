@@ -5,7 +5,7 @@ module.exports = {
     console.log("Home page request: ", req.body);
     let data;
     try {
-      data = await dbController.findAll({});
+      data = await dbController.findAll(['id', 'Day', 'Month', 'Year', 'Hour', 'Minute', 'Second', 'kwh', 'Flow']);
     } catch (err) {
       res.status(500).send({
         success: false,
@@ -13,11 +13,10 @@ module.exports = {
         data: []
       });
     }
-    console.log(data);
     res.status(200).send({
       success: true,
       message: 'Fetch data success',
       data: data
-    });76
+    });
   }
 }

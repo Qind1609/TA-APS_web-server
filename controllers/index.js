@@ -7,6 +7,7 @@ const energy = require('./energy.controller');
 const flow = require('./flow.controller');
 const pressure = require('./pressure.controller');
 const temperature = require('./temperature.controller');
+const database = require('./database.controller');
 
 module.exports = {
   import_data,
@@ -16,5 +17,6 @@ module.exports = {
   energy,
   flow,
   pressure,
-  temperature
+  temperature,
+  database
 };

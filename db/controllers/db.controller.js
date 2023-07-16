@@ -36,9 +36,9 @@ dbController.create = () => {
 };
 
 // Retrieve all data in table from the database.
-dbController.findAll = () => {
+dbController.findAll = (columns) => {
   return new Promise((resolve, reject) => {
-    Table.findAll()
+    Table.findAll({attributes: columns})
       .then(data => {
         return resolve(data);
       })
