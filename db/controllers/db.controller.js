@@ -5,40 +5,76 @@ const Table = db.table;
 const Op = db.Sequelize.Op;
 
 const dbController = {};
-// Create and Save a new Table
-dbController.create = () => {
-  // Validate request
-  if (!req.body.title) {
-    res.status(400).send({
-      message: "Content can not be empty!"
-    });
-    return;
-  }
 
-  // Create a Table
-  const table = {
-    title: req.body.title,
-    description: req.body.description,
-    published: req.body.published ? req.body.published : false
-  };
+// Insert new data row into table
+dbController.insert = (data) => {
+  return new Promise((resolve, reject) => {
 
-  // Save Table in the database
-  Table.create(table)
-    .then(data => {
-      res.send(data);
-    })
-    .catch(err => {
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while creating a table."
+    // Create a Table
+    const row = {
+      Day: data.Day,
+      Month: data.Month,
+      Year: data.Year,
+      Hour: data.Hour,
+      Minute: data.Minute,
+      Second: data.Second,
+      Temperature: data.Temperature,
+      Pressure: data.Pressure,
+      Flow: data.Flow,
+      Total: data.Total,
+      Valve_1: data.Valve_1,
+      Valve_2: data.Valve_2,
+      Valve_3: data.Valve_3,
+      Valve_4: data.Valve_4,
+      Valve_5: data.Valve_5,
+      M_1: data.M_1,
+      M_2: data.M_2,
+      M_3: data.M_3,
+      kw1: data.kw1,
+      kw2: data.kw2,
+      kw3: data.kw3,
+      kwh: data.kwh,
+    };
+
+    // Save row data in the db table
+    Table.create(row, { fields: [
+      'Day',
+      'Month',
+      'Year',
+      'Hour',
+      'Minute',
+      'Second',
+      'Temperature',
+      'Flow',
+      'Total',
+      'Valve_1',
+      'Valve_2',
+      'Valve_3',
+      'Valve_4',
+      'Valve_5',
+      'M_1',
+      'M_2',
+      'M_3',
+      'kw1',
+      'kw2',
+      'kw3',
+      'kwh'
+    ]})
+      .then(data => {
+        console.log("Insert data success. Current ID: ", data.dataValues.id);
+        return resolve();
+      })
+      .catch(err => {
+        console.log("Insert data error: ", err);
+        return reject();
       });
-    });
+  });
 };
 
 // Retrieve all data in table from the database.
 dbController.findAll = (columns) => {
   return new Promise((resolve, reject) => {
-    Table.findAll({attributes: columns})
+    Table.findAll({ attributes: columns })
       .then(data => {
         return resolve(data);
       })
@@ -49,24 +85,20 @@ dbController.findAll = (columns) => {
 };
 
 // Find a single Table with an id
-dbController.findOne = () => {
-  const id = req.params.id;
-
-  Table.findByPk(id)
-    .then(data => {
-      if (data) {
-        res.send(data);
-      } else {
-        res.status(404).send({
-          message: `Cannot find Table with id=${id}.`
-        });
-      }
-    })
-    .catch(err => {
-      res.status(500).send({
-        message: "Error retrieving Table with id=" + id
+dbController.findOne = (id) => {
+  return new Promise((resolve, reject) => {
+    Table.findByPk(id)
+      .then(data => {
+        if (data) {
+          return resolve(data);
+        } else {
+          return reject(`Cannot find Table with id=${id}.`)
+        }
+      })
+      .catch(err => {
+        return reject(`Error retrieving Table with id: ${id} - ${err}`);
       });
-    });
+  });
 };
 
 // Update a Table by the id in the request
