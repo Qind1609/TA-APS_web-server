@@ -176,4 +176,8 @@ utils.format2Decimals = (number) => {
   return Math.round(number * 100) / 100;
 }
 
+utils.randomFloat = (min, max) => {
+  return parseFloat(Math.random() * (max - min) + min);
+}
+
 module.exports = utils;
