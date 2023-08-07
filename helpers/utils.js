@@ -7,7 +7,7 @@ utils.getCsvData = async (filePath) => {
   return data;
 }
 
-utils.handleTimeDataImport = (timeArr) => {
+utils.handleTimeData = (timeArr) => {
   const result = {};
   const day = {};
   const week = {};
@@ -79,7 +79,7 @@ utils.getWeekImport = (date) => {
   return week;
 }
 
-utils.handleFlowDataImport = (flowArr, timeList) => {
+utils.handleFlowData = (flowArr, timeList) => {
   let flowTemp = {};
   Object.entries(timeList.day).forEach(([day, value]) => {
     let sumFlowDay = 0;
@@ -115,7 +115,7 @@ utils.handleFlowDataImport = (flowArr, timeList) => {
   return flowTemp;
 }
 
-utils.handleConsumptionDataImport = (consumptionArr, timeList) => {
+utils.handleConsumptionData = (consumptionArr, timeList) => {
   let consumptionTemp = {};
   let weekBelongCurrent = null;
   let weekBelongPrevious = null;

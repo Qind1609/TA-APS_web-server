@@ -72,10 +72,28 @@ dbController.insert = (data) => {
 };
 
 // Retrieve all data in table from the database.
-dbController.findAll = (columns) => {
+dbController.getData = (columns) => {
   return new Promise((resolve, reject) => {
-    Table.findAll({ attributes: columns })
+  db.sequelize.query(" \
+  SELECT * \
+  FROM ( \
+    SELECT " + columns + " \
+    FROM `audit_data` \
+    AS `audit_data` \
+    ORDER BY `audit_data`.`id` DESC \
+    LIMIT 15000 \
+    ) subquery \
+    ORDER BY `subquery`.`id` ASC; \
+    ",
+    { type: db.sequelize.QueryTypes.SELECT })
+
+  // Table.findAll({
+  //     attributes: columns,
+  //     limit: 3,
+  //     order: [['id', 'ASC']]
+  // })
       .then(data => {
+        //data = JSON.stringify(data, null, 2);
         return resolve(data);
       })
       .catch(err => {
